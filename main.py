@@ -72,4 +72,4 @@ def menu():
 def download():
     return send_file("export.csv", as_attachment=True)
 
-app.run(port=4242)
+app.run(port=4242, host="0.0.0.0")
