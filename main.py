@@ -4,7 +4,10 @@ from flask import *
 from threading import *
 import csv
 import datetime
+from os.path import getsize
 
+class vars():
+    cloudflarePing = 0
 
 def monitor():
     while True:
@@ -25,6 +28,7 @@ def monitor():
             cloudflare = 10000
         else:
             cloudflareSuccess = "True"
+            vars.cloudflarePing = cloudflare * 1000
 
         data = [str(timeData), routerSuccess, router * 1000, cloudflareSuccess, cloudflare * 1000]
 
@@ -45,28 +49,14 @@ app = Flask(__name__)
 
 @app.route("/")
 def menu():
-    webpage = """<!doctype html>
-<title>Download Statistics</title>
+    file = open("webpage.html", mode="r")
+    text = file.read()
+    file.close()
 
-<head>
-    <style>
-        button {
-            box-shadow: none;
-            border-width: 2px solid;
-            border-color: black;
-            background-color: white;
-            color: black;
-            border-radius: 0px;
-            font-family: sans-serif;
-        }
-    </style>
-</head>
+    size = str(round(getsize("export.csv") / 1024, 2)) + "kb (UNIX)"
 
-<body>
-<button onclick="document.location.href = '/download'"> Download </button>
-</body>
-"""
-    return webpage
+    text = text.replace("{{ cloudflarePingReplaceMe }}", str(round(vars.cloudflarePing))).replace("{{ FileSizeReplaceMe }}", size)
+    return text
 
 @app.route("/download")
 def download():

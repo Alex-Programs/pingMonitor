@@ -11,10 +11,26 @@
             color: black;
             border-radius: 0px;
             font-family: sans-serif;
+            transition: background-color 0.5s;
+            transition: color 0.5s;
+        }
+        button:hover {
+            background-color: black;
+            color: white;
+            transition: background-color 0.5s;
+            transition: color 0.5s;
+        }
+        * {
+            font-family: sans-serif;
         }
     </style>
 </head>
 
 <body>
+<h2>Download Utility</h2>
 <button onclick="document.location.href = '/download'"> Download </button>
+<h2>Current Cloudflare Ping</h2>
+<p>{{ cloudflarePingReplaceMe }}ms</p>
+<h2>Current File Size</h2>
+<p>{{ FileSizeReplaceMe }}</p>
 </body>
